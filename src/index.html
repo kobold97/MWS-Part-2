@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset = 'utf-8'>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+  <title>Restaurant Reviews</title>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <h1><a href="/">Restaurant Reviews</a></h1>
+    </nav>
+  </header>
+
+  <main id="maincontent">
+    <section id="map-container">
+      <div id="map"></div>
+    </section>
+    <section>
+      <div class="filter-options">
+        <h2>Filter Results</h2>
+        <!--I put empty labels just for the sake of accessibility test -->
+        <div class="label">
+        <label for="neighborhoods-select">Select neighborhood
+        <select id="neighborhoods-select" name="neighborhoods">
+          <option value="all">All Neighborhoods</option>
+        </select>
+        </label>
+      </div>
+      <div class="label">
+        <label for="cuisines-select">Select cusine
+        <select id="cuisines-select" name="cuisines">
+          <option value="all">All Cuisines</option>
+        </select>
+        </label>
+      </div>
+      </div>
+      <ul id="restaurants-list"></ul>
+    </section>
+  </main>
+  <script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD9NPi6nDinjT7G5qaYjFUaF6-ou0TzieA&libraries=places&callback=initMap"></script>
+
+
+  <footer id="footer">
+    Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+  </footer>
+
+</body>
+
+</html>
