@@ -12,17 +12,6 @@ const PRODUCTION = process.env.NODE_ENV === 'production';
 
 var rules = [
 			{
-				test: /\.js$/,
-				use: [
-					{
-						loader: 'babel-loader',
-						options: {
-							presets: ['es2015']
-						}
-					}
-				]
-			},
-			{
 				test: /\.(jpg|png)$/,
 				use: [ 
 					{loader: 'responsive-loader',
