@@ -2,7 +2,9 @@
 Second part of my awesome project with Udacity!
 1) Clone the repository 
 2) Run: 'npm i' in your cli.
-3) Run: 'npm run dev' to get development version running or 'npm run prod' to get the production version running.
+3) Run: 'npm run prod' to get the production version running.
+
+4)I also had the development version but it crashed and doesn't work anymore xD.
 
 PS
 Don't forget to run Udacity server. You can download it here:
