@@ -511,10 +511,11 @@ Can I do something about that?*/
 @media screen and (min-width:1200px) {
   header, main, nav {
     width: 1200px;
+    max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
   }
-
+  
 }
 .label{
   font-weight: bold;

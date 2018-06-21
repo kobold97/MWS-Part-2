@@ -31,7 +31,7 @@ registerServiceWorker(){
   }
 };
 
-//serviceWorkerAPI.registerServiceWorker();
+serviceWorkerAPI.registerServiceWorker();
 
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 let restaurants,
@@ -178,7 +178,7 @@ var createRestaurantHTML = (restaurant) => {
   image.setAttribute('alt','picture representing particular restaurant');
   li.append(image);
 
-  const name = document.createElement('h1');
+  const name = document.createElement('h2');
   name.innerHTML = restaurant.name;
   li.append(name);
 
@@ -210,4 +210,4 @@ var addMarkersToMap = (restaurants = self.restaurants) => {
     });
     self.markers.push(marker);
   });
-}
+} 

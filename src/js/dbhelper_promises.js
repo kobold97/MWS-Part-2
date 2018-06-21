@@ -8,7 +8,8 @@ export class DBHelper{
 			var tx = db.transaction('restaurants');
 			var objectStore = tx.objectStore('restaurants');
 			return objectStore.getAll();
-		}).then(function(obj){return obj[0]});
+		}).then(function(obj){
+			return obj[0]});
 	}
 
 	static fetchRestaurantById(id){
@@ -40,7 +41,6 @@ export class DBHelper{
 			let results = restaurants;
 			if(cuisine != 'all'){
 				results = results.filter(r => r.cuisine_type == cuisine);
-				console.log(results, 'aaaaaaaaaaaaaaaaa');
 			}
 			if (neighborhood != 'all'){
 				results = results.filter( r => r.neighborhood == neighborhood);
@@ -77,7 +77,7 @@ export class DBHelper{
     	/*I'm gettin dpi*/
     	let device_pixel_ratio = window.devicePixelRatio;
     	/*I cut '.jpg' part of the restaurant.photograph value*/
-    	let sliced_photo = restaurant.photograph.slice(0,1);
+    	let sliced_photo = restaurant.photograph;
     	/*I'm implementing picture like logic*/
     	if( screen_width <= 550 ){
       	if( device_pixel_ratio <= 1.5 ){

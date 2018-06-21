@@ -102,7 +102,11 @@ var plugins = [
    	{
    		from: './src/images',
    		to: './images'
-   	}
+   	},
+	{
+		from: './manifest.json',
+		to: './'
+	}
     ]),
     new WebpackCleanPlugin(['dist'])	
 ];
