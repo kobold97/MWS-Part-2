@@ -1,7 +1,20 @@
 {
-	"name": "Novmi",
-	"short_name": "Novmi",
-	"start_url": "/index.html",
-	"background-color": "#3E4EB8",
-	"theme_color": "#3E4EB8"
+  "short_name": "Restaurant Reviews",
+  "name": "Restaurant Reviews",
+  "start_url": "/",
+  "background_color": "#fdfdfd",
+  "theme_color": "#317EFB",
+  "display": "fullscreen",
+  "icons": [
+  {
+    "src": "/icons/icons-192.png",
+    "type": "image/png",
+    "sizes": "192x192"
+  },
+  {
+    "src": "/icons/icons-512.png",
+    "type": "image/png",
+    "sizes": "512x512"
+  }
+]
 }

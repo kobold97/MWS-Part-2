@@ -110,6 +110,10 @@ var plugins = [
 	{
 		from: './manifest_restaurant.json',
 		to: './'
+	},
+	{
+		from: './src/icons',
+		to: './icons'
 	}
     ]),
     new WebpackCleanPlugin(['dist'])	

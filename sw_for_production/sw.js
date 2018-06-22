@@ -4,7 +4,9 @@ var cacheName = 'Global';
 self.addEventListener('install', function runWhenInstalling(event){
 	event.waitUntil(
 		caches.open(cacheName).then(function caheAll(db){
-		db.addAll(['./src/index.html',
+		db.addAll(['/manifest.json','./src/index.html',
+			'./src/icons/icons-192.png',
+			'./src/icons/icons-512.png',
 			'./src/restaurant.html',
 			'./src/main.js',
 			'./src/sub.js',"./images/1-300_x1.jpg", "./images/1-300_x2.jpg",
@@ -33,6 +35,10 @@ self.addEventListener('install', function runWhenInstalling(event){
 		)
 });	
 self.addEventListener('fetch', function(event) {
+  if (event.request.cache === 'only-if-cached' && event.request.mode !== 'same-origin') {
+  return;
+	}
+
   event.respondWith(
     caches.open(cacheName).then(function(cache) {
       return cache.match(event.request).then(function (response) {
@@ -40,7 +46,7 @@ self.addEventListener('fetch', function(event) {
           return response;
         });
       });
-    })
+    }).catch(function(err){console.log(err);})
   );
 });
 
