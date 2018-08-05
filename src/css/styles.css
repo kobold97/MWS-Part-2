@@ -530,3 +530,22 @@ Can I do something about that?*/
   .label{width: 100%;
     display: block;}
 }
+.red{
+  font-size: 20px;
+  background-color: navajowhite;
+  color: red;
+  font-weight: 700;
+  float: right;
+  width: 20%;
+  margin: 15px;
+}
+
+.green{
+  font-size: 20px;
+  background-color: navajowhite;
+  color: green;
+  font-weight: 700;
+  float: right;
+  width: 20%;
+  margin: 15px;
+}

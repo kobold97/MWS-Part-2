@@ -31,7 +31,7 @@ registerServiceWorker(){
   }
 };
 
-serviceWorkerAPI.registerServiceWorker();
+ serviceWorkerAPI.registerServiceWorker();
 
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 let restaurants,
@@ -195,8 +195,36 @@ var createRestaurantHTML = (restaurant) => {
   more.href = DBHelper.urlForRestaurant(restaurant);
   li.append(more)
 
+  const tick = document.createElement('button');
+  tick.innerHTML = '✓';
+  tick.classList.add("red");
+  li.append(tick);
+  if (restaurant.is_favorite){
+    tick.classList.add('green');
+    tick.classList.remove('red');
+   }
+   else{
+     tick.classList.add('red');
+     tick.classList.remove('green');
+   }
+  tick.addEventListener('click', function(){
+    console.log('restaurant status: ', restaurant.is_favorite);
+    var status = !restaurant.is_favorite;               
+    console.log('status Im sending ', status);      
+    DBHelper.updateFavoriteStatus(restaurant.id, status);    
+    restaurant.is_favorite = !restaurant.is_favorite;      
+    console.log('locale restaurant status ', restaurant.is_favorite);
+    changeClass(tick);
+  });
+
+
   return li
 }
+
+  function changeClass(element){
+    element.classList.toggle("red");
+    element.classList.toggle("green");
+  }
  /**
  * Add markers for current restaurants to the map.
  */
