@@ -31,13 +31,11 @@ registerServiceWorker(){
   }
 };
 
- serviceWorkerAPI.registerServiceWorker();
+ //serviceWorkerAPI.registerServiceWorker();
 
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 let restaurants,
   neighborhoods;
-var map;
-var markers = [];
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
@@ -117,6 +115,7 @@ window.initMap = () => {
  });
 
 var updateRestaurants = () => {
+  console.log('no kurwa dzialam');
   const cSelect = document.getElementById('cuisines-select');
   const nSelect = document.getElementById('neighborhoods-select');
 
@@ -142,13 +141,6 @@ var updateRestaurants = () => {
   self.restaurants = [];
   const ul = document.getElementById('restaurants-list');
   ul.innerHTML = '';
-
-  // Remove all map markers
-  if(self.markers){
-    self.markers.forEach(m => m.setMap(null));
-  }
-  self.markers = [];
-  self.restaurants = restaurants;
  }
 
 /**
@@ -156,11 +148,12 @@ var updateRestaurants = () => {
  */
 
  var fillRestaurantsHTML = (restaurants = self.restaurants) => {
+   console.log('ja tez dzialam');
     const ul = document.getElementById('restaurants-list');
+    console.log(ul);
     restaurants.forEach(restaurant => {
       ul.append(createRestaurantHTML(restaurant));
     });
-    addMarkersToMap();
  }
 
  /**
@@ -217,7 +210,7 @@ var createRestaurantHTML = (restaurant) => {
     changeClass(tick);
   });
 
-
+  console.log(li);
   return li
 }
 
