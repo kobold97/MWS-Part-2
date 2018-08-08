@@ -4,9 +4,12 @@ and restaurant.html and index.html are the same origin so I don't have to do any
 right?*/
 
 let restaurant;
-var map;
-
+window.map;
 /* I do this because I have no any other idea how to rerender images when resizing.*/
+
+document.addEventListener('DOMContentLoaded', (event) => {
+  initMap();
+});
 
 window.addEventListener('resize', (event) => {
 	location.reload();
@@ -14,19 +17,25 @@ window.addEventListener('resize', (event) => {
 /**
  * Initialize Google map, called from HTML.
  */
- window.initMap = () => {
- 	fetchRestaurantFromURL().then(function(restaurant){
- 		self.map = new google.maps.Map(document.getElementById('map'), {
+var initMap = () => {
+  fetchRestaurantFromURL()
+    .then(restaurant => {
+      window.map = L.map('map', {
+        center: [restaurant.latlng.lat, restaurant.latlng.lng],
         zoom: 16,
-        center: restaurant.latlng,
-        scrollwheel: false});
- 		fillBreadcrumb();
- 		DBHelper.mapMarkerForRestaurant(self.restaurant, self.map);
-    window.addEventListener('load', function(){
-    document.querySelector('iframe').setAttribute('title', 'google maps');
-    });
- 	});
- }
+        scrollWheelZoom: false
+      });
+      L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
+        mapboxToken: 'pk.eyJ1Ijoia29ib2xkOTciLCJhIjoiY2prbDQ1cHN2MDhrejNwczdpY3VtdzVmOSJ9.eohzDoyKyqdrrHcUHVAwLA',
+        maxZoom: 18,
+        attribution: '',
+        id: 'mapbox.streets'
+      }).addTo(window.map);
+      fillBreadcrumb();
+      DBHelper.mapMarkerForRestaurant(window.restaurant, window.map);
+    })
+    .catch(error => console.error(error));
+}
 
 
 /**
@@ -34,8 +43,8 @@ window.addEventListener('resize', (event) => {
  */
 var fetchRestaurantFromURL = () => {
 	return new Promise(function(resolve, reject){
-		if (self.restaurant){
-			resolve(self.restaurant);
+		if (window.restaurant){
+			resolve(window.restaurant);
 		}
 		const id = getParameterByName('id');
 		if(!id){//no id found in URL
@@ -43,7 +52,7 @@ var fetchRestaurantFromURL = () => {
 		}
 		else{
 			DBHelper.fetchRestaurantById(id).then(function(restaurant){
-				self.restaurant = restaurant;
+				window.restaurant = restaurant;
 				if(!restaurant){
 					reject('no such restaurant in url');
 				}
@@ -56,7 +65,7 @@ var fetchRestaurantFromURL = () => {
 /**
  * Create restaurant HTML and add it to the webpage
  */
- var fillRestaurantHTML = (restaurant = self.restaurant) => {
+ var fillRestaurantHTML = (restaurant = window.restaurant) => {
  	const name = document.getElementById('restaurant-name');
  	name.innerHTML = restaurant.name;
 
@@ -85,7 +94,7 @@ var fetchRestaurantFromURL = () => {
 /**
  * Create restaurant operating hours HTML table and add it to the webpage.
  */
-var fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => {
+var fillRestaurantHoursHTML = (operatingHours = window.restaurant.operating_hours) => {
   const hours = document.getElementById('restaurant-hours');
   for (let key in operatingHours) {
     const row = document.createElement('tr');
@@ -102,7 +111,7 @@ var fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours)
   }
 }
 
-var fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+var fillReviewsHTML = (reviews = window.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h3');
   title.innerHTML = 'Reviews';
@@ -209,7 +218,7 @@ document.querySelector('.submit-button').addEventListener('click', addReview);
 /**
  * Add restaurant name to the breadcrumb navigation menu
  */
-var fillBreadcrumb = (restaurant=self.restaurant) => {
+var fillBreadcrumb = (restaurant=window.restaurant) => {
   const breadcrumb = document.getElementById('breadcrumb');
   const li = document.createElement('li');
   li.innerHTML = restaurant.name;

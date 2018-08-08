@@ -31,17 +31,19 @@ registerServiceWorker(){
   }
 };
 
- //serviceWorkerAPI.registerServiceWorker();
+serviceWorkerAPI.registerServiceWorker();
 
 //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 let restaurants,
   neighborhoods;
+window.markers = [];
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
   fetchNeighborhoods();
   fetchCuisines();
+  initMap();
 });
 /**In order to update the photos I'm now updating all restaurants when resizing*/
 window.addEventListener('resize', (event) => {
@@ -75,30 +77,30 @@ window.addEventListener('resize', (event) => {
   });
  }
 
-var fillCuisinesHTML = (cuisines = self.cuisines) => {
+ var fillCuisinesHTML = (cuisines = self.cuisines) => {
   const select = document.getElementById('cuisines-select');
 
   cuisines.forEach(cuisine => {
-    const select = document.getElementById('cuisines-select');
-    cuisines.forEach(cuisine => {
-      const option = document.createElement('option');
-      option.innerHTML = cuisine;
-      option.value = cuisine;
-      select.append(option);
-    });
+    const option = document.createElement('option');
+    option.innerHTML = cuisine;
+    option.value = cuisine;
+    select.append(option);
   });
 }
 
-window.initMap = () => {
-  let loc = {
-    lat: 40.722216,
-    lng: -73.987501
-  };
-  self.map = new google.maps.Map(document.getElementById('map'),{
+var initMap = () => {
+  window.map = L.map('map', {
+    center: [40.722216, -73.987501],
     zoom: 12,
-    center: loc,
-    scrollwheel: false
+    scrollWheelZoom: false
   });
+  L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.jpg70?access_token={mapboxToken}', {
+    mapboxToken: 'pk.eyJ1Ijoia29ib2xkOTciLCJhIjoiY2prbDQ1cHN2MDhrejNwczdpY3VtdzVmOSJ9.eohzDoyKyqdrrHcUHVAwLA',
+    maxZoom: 18,
+    attribution: '',
+    id: 'mapbox.streets'
+  }).addTo(map);
+
   updateRestaurants();
 }
 
@@ -136,12 +138,19 @@ var updateRestaurants = () => {
  * Clear current restaurants, their HTML and remove their map markers.
  */
 
- var resetRestaurants = (restaurants) => {
+var resetRestaurants = (restaurants) => {
   // Remove all restaurants
   self.restaurants = [];
   const ul = document.getElementById('restaurants-list');
   ul.innerHTML = '';
- }
+
+  // Remove all map markers
+  if (window.markers) {
+    window.markers.forEach(marker => marker.remove());
+  }
+  window.markers = [];
+  self.restaurants = restaurants;
+}
 
 /**
  * Create all restaurants HTML and add them to the webpage.
@@ -225,10 +234,12 @@ var createRestaurantHTML = (restaurant) => {
 var addMarkersToMap = (restaurants = self.restaurants) => {
   restaurants.forEach(restaurant => {
     // Add marker to the map
-    const marker = DBHelper.mapMarkerForRestaurant(restaurant, self.map);
-    google.maps.event.addListener(marker, 'click', () => {
-      window.location.href = marker.url
-    });
+    const marker = DBHelper.mapMarkerForRestaurant(restaurant, window.map);
+    marker.on("click", onClick);
+
+    function onClick() {
+      window.location.href = marker.options.url;
+    }
     self.markers.push(marker);
   });
-} 
+}
