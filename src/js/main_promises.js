@@ -117,7 +117,6 @@ var initMap = () => {
  });
 
 var updateRestaurants = () => {
-  console.log('no kurwa dzialam');
   const cSelect = document.getElementById('cuisines-select');
   const nSelect = document.getElementById('neighborhoods-select');
 
@@ -157,12 +156,11 @@ var resetRestaurants = (restaurants) => {
  */
 
  var fillRestaurantsHTML = (restaurants = self.restaurants) => {
-   console.log('ja tez dzialam');
     const ul = document.getElementById('restaurants-list');
-    console.log(ul);
     restaurants.forEach(restaurant => {
       ul.append(createRestaurantHTML(restaurant));
     });
+    addMarkersToMap();
  }
 
  /**
@@ -210,16 +208,12 @@ var createRestaurantHTML = (restaurant) => {
      tick.classList.remove('green');
    }
   tick.addEventListener('click', function(){
-    console.log('restaurant status: ', restaurant.is_favorite);
     var status = !restaurant.is_favorite;               
-    console.log('status Im sending ', status);      
     DBHelper.updateFavoriteStatus(restaurant.id, status);    
     restaurant.is_favorite = !restaurant.is_favorite;      
-    console.log('locale restaurant status ', restaurant.is_favorite);
     changeClass(tick);
   });
 
-  console.log(li);
   return li
 }
 
